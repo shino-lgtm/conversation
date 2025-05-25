@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Advanced English Quiz</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Advanced English Conversation Quiz</h1>
+  <div id="quiz-container">
+    <div id="question-box">
+      <p id="question-text">Loading question...</p>
+    </div>
+    <div id="choices"></div>
+    <div id="feedback"></div>
+    <button id="next-button" style="display: none;">Next Question ▶</button>
+  </div>
+  <script>
+    const quizData = [
+      {
+        question: "Would you like me to bring your luggage up to your room?",
+        correct: "Yes, please. That would be great.",
+        choices: [
+          "Yes, please. That would be great.",
+          "I’ll take the chicken, please.",
+          "I’m allergic to peanuts."
+        ]
+      },
+      {
+        question: "Could you please spell your last name for me?",
+        correct: "Sure, it's S-M-I-T-H.",
+        choices: [
+          "Sure, it's S-M-I-T-H.",
+          "I’d like to cancel my reservation.",
+          "Two bottles of water, please."
+        ]
+      },
+      {
+        question: "What time would you like your wake-up call?",
+        correct: "At 6 a.m., please.",
+        choices: [
+          "At 6 a.m., please.",
+          "Is there Wi-Fi in the room?",
+          "I’ll be staying three nights."
+        ]
+      },
+      {
+        question: "Do you have anything to declare?",
+        correct: "No, I don’t.",
+        choices: [
+          "No, I don’t.",
+          "Window seat, please.",
+          "Can I have the check?"
+        ]
+      },
+      {
+        question: "How would you like to pay?",
+        correct: "I’ll use my credit card.",
+        choices: [
+          "I’ll use my credit card.",
+          "That’s too expensive.",
+          "A table for two, please."
+        ]
+      },
+      {
+        question: "Do you need help with your bags?",
+        correct: "No, I can manage. Thank you.",
+        choices: [
+          "No, I can manage. Thank you.",
+          "How much does it cost?",
+          "I’d like the soup."
+        ]
+      },
+      {
+        question: "Would you like sparkling or still water?",
+        correct: "Still water, please.",
+        choices: [
+          "Still water, please.",
+          "Can I see your passport?",
+          "I’ll be back next week."
+        ]
+      },
+      {
+        question: "What’s the purpose of your visit?",
+        correct: "I’m here on business.",
+        choices: [
+          "I’m here on business.",
+          "No, I don’t eat meat.",
+          "Just a small coffee, please."
+        ]
+      },
+      {
+        question: "Can I see some ID, please?",
+        correct: "Sure, here’s my driver’s license.",
+        choices: [
+          "Sure, here’s my driver’s license.",
+          "I’d like to order dessert.",
+          "Do you have any vegan options?"
+        ]
+      },
+      {
+        question: "Is there anything else I can help you with?",
+        correct: "No, that’s all. Thank you.",
+        choices: [
+          "No, that’s all. Thank you.",
+          "Can I change my seat?",
+          "I need a bigger suitcase."
+        ]
+      }
+    ];
+
+    let current = 0;
+    const questionText = document.getElementById("question-text");
+    const choicesContainer = document.getElementById("choices");
+    const feedback = document.getElementById("feedback");
+    const nextButton = document.getElementById("next-button");
+
+    function loadQuestion() {
+      const q = quizData[current];
+      questionText.textContent = `Q${current + 1}: ${q.question}`;
+      feedback.textContent = "";
+      nextButton.style.display = "none";
+      choicesContainer.innerHTML = "";
+
+      q.choices.forEach(choice => {
+        const btn = document.createElement("button");
+        btn.textContent = choice;
+        btn.className = "choice-button";
+        btn.onclick = () => checkAnswer(choice, q.correct);
+        choicesContainer.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selected, correct) {
+      if (selected === correct) {
+        feedback.textContent = "✅ Correct!";
+      } else {
+        feedback.textContent = `❌ Incorrect. The correct answer was: ${correct}`;
+      }
+      document.querySelectorAll(".choice-button").forEach(btn => btn.disabled = true);
+      nextButton.style.display = "inline-block";
+    }
+
+    nextButton.onclick = () => {
+      current++;
+      if (current < quizData.length) {
+        loadQuestion();
+      } else {
+        questionText.textContent = "🎉 You've completed all the questions!";
+        choicesContainer.innerHTML = "";
+        feedback.textContent = "";
+        nextButton.style.display = "none";
+      }
+    };
+
+    loadQuestion();
+  </script>
+</body>
+</html>
